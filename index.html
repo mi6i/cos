@@ -28,24 +28,17 @@
       onload="removePoweredBy()"
     ></iframe>
 
-    <script>
-      function removePoweredBy() {
-        const iframe = document.getElementById('webview');
-        iframe.onload = () => {
-          try {
-            const iframeDoc =
-              iframe.contentDocument || iframe.contentWindow.document;
-            const poweredByElement = iframeDoc.querySelector('#powered-by');
-            if (poweredByElement) {
-              poweredByElement.style.display = 'none';
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const interval = setInterval(() => {
+            const element = document.querySelector("#powered-by");
+            if (element) {
+                element.remove();
+                clearInterval(interval);
             }
-          } catch (error) {
-            console.warn(
-              'Unable to modify iframe content due to cross-origin restrictions.'
-            );
-          }
-        };
-      }
-    </script>
+        }, 100);
+    });
+</script>
+
   </body>
 </html>
