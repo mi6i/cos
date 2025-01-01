@@ -29,26 +29,34 @@
     ></iframe>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        function removePoweredBy() {
-            const element = document.querySelector("#powered-by");
-            if (element) {
-                element.remove();
+document.addEventListener("DOMContentLoaded", function () {
+    // تابع برای حذف المان هدف
+    function removePoweredBy() {
+        const element = document.querySelector("#powered-by");
+        if (element) {
+            element.style.display = "none"; // پنهان کردن
+            element.remove(); // حذف کامل
+        }
+    }
+
+    // بررسی اولیه
+    removePoweredBy();
+
+    // نظارت بر تغییرات DOM
+    const observer = new MutationObserver(function (mutationsList) {
+        for (const mutation of mutationsList) {
+            if (mutation.type === "childList") {
+                removePoweredBy(); // حذف دوباره در صورت اضافه شدن
             }
         }
-
-        removePoweredBy();
-
-        const observer = new MutationObserver(function (mutationsList) {
-            for (const mutation of mutationsList) {
-                if (mutation.type === "childList") {
-                    removePoweredBy();
-                }
-            }
-        });
-
-        observer.observe(document.body, { childList: true, subtree: true });
     });
+
+    // نظارت بر کل صفحه
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // بررسی دوره‌ای (برای اطمینان از حذف در بارگذاری‌های پویا)
+    setInterval(removePoweredBy, 1000);
+});
 </script>
 
   </body>
