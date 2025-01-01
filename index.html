@@ -30,13 +30,24 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const interval = setInterval(() => {
+        function removePoweredBy() {
             const element = document.querySelector("#powered-by");
             if (element) {
                 element.remove();
-                clearInterval(interval);
             }
-        }, 100);
+        }
+
+        removePoweredBy();
+
+        const observer = new MutationObserver(function (mutationsList) {
+            for (const mutation of mutationsList) {
+                if (mutation.type === "childList") {
+                    removePoweredBy();
+                }
+            }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
     });
 </script>
 
